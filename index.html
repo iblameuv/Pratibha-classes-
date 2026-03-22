@@ -1,264 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pratibha Smart Classes</title>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
 <style>
-body{margin:0;font-family:Arial;background:#000;color:#fff}
-header{padding:100px;text-align:center;background:linear-gradient(135deg,#000,#111,#ff0000)}
-h1{font-size:50px}
-
-section{padding:60px;max-width:1100px;margin:auto}
-
-.card{
-background:#111;
-border:1px solid red;
-padding:15px;
-border-radius:10px;
-margin:10px 0;
-}
-
-input{
-width:90%;
-padding:10px;
-margin:5px;
-border-radius:8px;
-border:none;
-}
-
-button{
-padding:8px 15px;
-background:red;
-border:none;
-border-radius:8px;
-color:white;
-cursor:pointer;
-}
-
-#adminBtn{
-position:fixed;
-top:20px;
-right:20px;
-background:black;
-border:1px solid red;
-padding:10px;
-border-radius:50%;
-cursor:pointer;
-}
-
-#adminPanel{
-position:fixed;
-top:0;
-right:-100%;
-width:350px;
-height:100%;
-background:#111;
-transition:0.4s;
-padding:20px;
-overflow:auto;
-}
-
-#adminPanel.active{right:0}
-
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-padding:15px;
-border-radius:50%;
-}
+body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#000,#400000);color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+.glass-card{background:rgba(0,0,0,0.6);border:1px solid rgba(255,0,0,0.4);backdrop-filter:blur(12px);border-radius:20px;padding:2rem;width:400px;margin:1rem;transition:all 0.3s ease;}
+.glass-card:hover{transform:translateY(-5px);}
+input,button,textarea{display:block;width:100%;margin:10px 0;padding:10px;border:none;border-radius:10px;}
+button{background:linear-gradient(45deg,#ff0000,#800000);color:#fff;cursor:pointer;font-weight:bold;}
+.hidden{display:none;}
+.whatsapp-float{position:fixed;bottom:25px;right:25px;background:#25D366;border-radius:50%;width:60px;height:60px;display:flex;justify-content:center;align-items:center;text-decoration:none;font-size:24px;color:#fff;box-shadow:0 4px 6px rgba(0,0,0,0.3);}
+table{width:100%;border-collapse:collapse;}
+th,td{border:1px solid rgba(255,255,255,0.2);padding:5px;text-align:center;}
+img.gallery-img{width:100px;margin:5px;border-radius:10px;}
 </style>
 </head>
-
 <body>
+<div id="app">
+  <!-- Login -->
+  <div id="login-card" class="glass-card">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="login-btn">Login</button>
+  </div>
 
-<header>
-<h1>Pratibha Smart Classes</h1>
-<p>Smart Learning for Bright Future</p>
-</header>
+  <!-- Student Dashboard -->
+  <div id="student-dashboard" class="glass-card hidden">
+    <h2>Welcome, <span id="student-name"></span></h2>
+    <form id="profile-form">
+      <input type="text" id="parent-name" placeholder="Parent Name">
+      <input type="text" id="contact" placeholder="Contact">
+      <textarea id="address" placeholder="Address"></textarea>
+      <button type="submit">Save Profile</button>
+    </form>
+    <h3>Fees History</h3>
+    <table id="fees-table">
+      <thead><tr><th>Due Date</th><th>Paid Date</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Next Due Date: <span id="next-due"></span></h3>
+    <h3>Upload Fee Proof</h3>
+    <input type="file" id="fee-proof"><button id="upload-proof">Upload</button>
+  </div>
 
-<section>
-<h2>Why Education Matters</h2>
-<div class="card">
-Education builds discipline, confidence, and opens doors to opportunities.
-With the right guidance and strong concepts, students can achieve success
-in exams and in life.
+  <!-- Admin Panel -->
+  <div id="admin-panel" class="glass-card hidden">
+    <h2>Admin Panel</h2>
+    <div id="students-crud">
+      <h3>Students</h3>
+      <button id="add-student-btn">Add Student</button>
+      <table id="students-table"><thead><tr><th>Name</th><th>Email</th><th>Actions</th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <div id="fees-crud">
+      <h3>Fees Records</h3>
+      <table id="fees-admin-table"><thead><tr><th>Student</th><th>Due Date</th><th>Paid Date</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      <input type="text" id="fee-student-id" placeholder="Student ID">
+      <input type="date" id="fee-due"><input type="date" id="fee-paid"><button id="add-fee-btn">Add Fee</button>
+    </div>
+
+    <div id="gallery-crud">
+      <h3>Gallery</h3>
+      <input type="text" id="gallery-title" placeholder="Title">
+      <input type="file" id="gallery-file">
+      <button id="upload-btn">Upload Photo</button>
+      <div id="gallery-list"></div>
+    </div>
+
+    <div id="app-config">
+      <h3>App Config</h3>
+      <input type="text" id="app-name" placeholder="App Name">
+      <input type="text" id="logo-url" placeholder="Logo URL">
+      <button id="save-config-btn">Save Config</button>
+    </div>
+  </div>
+
+  <a href="https://wa.me/918766295309" target="_blank" class="whatsapp-float">💬</a>
 </div>
-</section>
-
-<section>
-<h2>Courses</h2>
-<div id="courses"></div>
-</section>
-
-<section>
-<h2>Admission Form</h2>
-<input id="name" placeholder="Student Name">
-<input id="parent" placeholder="Parent Name">
-<input id="contact" placeholder="Contact">
-<input id="address" placeholder="Address">
-<button onclick="submitForm()">Submit</button>
-<p id="msg"></p>
-</section>
-
-<div id="adminBtn" onclick="toggleAdmin()">⚙️</div>
-
-<div id="adminPanel">
-<h2>Admin Panel</h2>
-
-<input type="password" id="pass" placeholder="Password">
-<button onclick="login()">Login</button>
-
-<div id="adminContent" style="display:none">
-
-<h3>Change Password</h3>
-<input id="newpass" placeholder="New Password">
-<button onclick="changePass()">Update</button>
-
-<h3>Add Course</h3>
-<input id="cname" placeholder="Course">
-<input id="csubject" placeholder="Subject">
-<input id="cteacher" placeholder="Teacher">
-<input id="cfees" placeholder="Fees">
-<button onclick="addCourse()">Add</button>
-
-<h3>Students</h3>
-<input id="search" placeholder="Search" onkeyup="searchStudent()">
-<div id="data"></div>
-
-</div>
-</div>
-
-<a href="https://wa.me/918766295309" class="whatsapp">💬</a>
 
 <script>
+const loginBtn=document.getElementById('login-btn');
+const loginCard=document.getElementById('login-card');
+const studentDashboard=document.getElementById('student-dashboard');
+const adminPanel=document.getElementById('admin-panel');
 
-// 🔥 PUT YOUR FIREBASE CONFIG HERE
-const firebaseConfig = {
-  apiKey: "AIzaSyDt83YIHvVU_wa1T0ZI4Iilu_TuM6L3t1k",
-  authDomain: "pratibha-smart-classes-4bc4f.firebaseapp.com",
-  projectId: "pratibha-smart-classes-4bc4f"
-};
+loginBtn.addEventListener('click',()=>{
+  const email=document.getElementById('email').value;
+  const password=document.getElementById('password').value;
+  if(email==='yuvrajbadgujjar9@gmail.com'&&password==='yuvraj309'){
+    loginCard.classList.add('hidden');adminPanel.classList.remove('hidden');loadAdminData();loadFeesAdmin();loadGallery();
+  } else {
+    fetch('http://localhost:5000/api/auth/student-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})})
+    .then(res=>res.json()).then(data=>{
+      if(data.success){loginCard.classList.add('hidden');studentDashboard.classList.remove('hidden');document.getElementById('student-name').innerText=data.student.name;loadStudentFees(data.student._id);}
+      else alert('Invalid credentials');
+    });
+  }
+});
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-// PASSWORD
-if(!localStorage.getItem('adminPass')){
- localStorage.setItem('adminPass','admin123');
+function loadAdminData(){
+  fetch('http://localhost:5000/api/students').then(res=>res.json()).then(students=>{
+    const tbody=document.querySelector('#students-table tbody');tbody.innerHTML='';
+    students.forEach(s=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${s.name}</td><td>${s.email}</td><td><button onclick="editStudent('${s._id}')">Edit</button><button onclick="deleteStudent('${s._id}')">Delete</button></td>`;tbody.appendChild(tr);});
+  });
 }
 
-function toggleAdmin(){
- adminPanel.classList.toggle('active');
+function editStudent(id){alert('Edit '+id);}
+function deleteStudent(id){fetch(`http://localhost:5000/api/students/${id}`,{method:'DELETE'}).then(()=>loadAdminData());}
+
+function loadStudentFees(id){
+  fetch(`http://localhost:5000/api/fees?student=${id}`).then(res=>res.json()).then(data=>{
+    const tbody=document.querySelector('#fees-table tbody');tbody.innerHTML='';
+    data.forEach(f=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${new Date(f.dueDate).toLocaleDateString()}</td><td>${f.paidDate?new Date(f.paidDate).toLocaleDateString():'-'}</td>`;tbody.appendChild(tr);});
+    const nextDue=data.filter(f=>!f.paidDate).sort((a,b)=>new Date(a.dueDate)-new Date(b.dueDate))[0];
+    document.getElementById('next-due').innerText=nextDue?new Date(nextDue.dueDate).toLocaleDateString():'No pending';
+  });
 }
 
-function login(){
- if(pass.value === localStorage.getItem('adminPass')){
-  adminContent.style.display = 'block';
-  loadStudents();
- }
-}
+function loadFeesAdmin(){fetch('http://localhost:5000/api/fees').then(res=>res.json()).then(data=>{
+  const tbody=document.querySelector('#fees-admin-table tbody');tbody.innerHTML='';
+  data.forEach(f=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${f.student.name}</td><td>${new Date(f.dueDate).toLocaleDateString()}</td><td>${f.paidDate?new Date(f.paidDate).toLocaleDateString():'-'}</td><td><button onclick="deleteFee('${f._id}')">Delete</button></td>`;tbody.appendChild(tr);});
+});}
 
-function changePass(){
- localStorage.setItem('adminPass', newpass.value);
- alert("Password Updated");
-}
+function deleteFee(id){fetch(`http://localhost:5000/api/fees/${id}`,{method:'DELETE'}).then(()=>loadFeesAdmin());}
 
-// COURSES
-async function addCourse(){
- await db.collection('courses').add({
-  name:cname.value,
-  subject:csubject.value,
-  teacher:cteacher.value,
-  fees:cfees.value
- });
- loadCourses();
-}
+function loadGallery(){fetch('http://localhost:5000/api/gallery').then(res=>res.json()).then(data=>{const div=document.getElementById('gallery-list');div.innerHTML='';data.forEach(g=>{div.innerHTML+=`<img src="${g.imageUrl}" alt="${g.title}" class="gallery-img">`;});});}
 
-async function loadCourses(){
- let snap = await db.collection('courses').get();
- let out = '';
- snap.forEach(doc=>{
-  let x = doc.data();
-  out += `<div class='card'>
-  <b>${x.name}</b><br>
-  ${x.subject}<br>
-  ${x.teacher}<br>
-  ₹${x.fees}
-  <br>
-  <button onclick="deleteCourse('${doc.id}')">Delete</button>
-  </div>`;
- });
- courses.innerHTML = out;
-}
-loadCourses();
-
-async function deleteCourse(id){
- await db.collection('courses').doc(id).delete();
- loadCourses();
-}
-
-// FORM
-async function submitForm(){
- await db.collection('students').add({
-  name:name.value,
-  parent:parent.value,
-  contact:contact.value,
-  address:address.value
- });
-
- msg.innerText = "Submitted Successfully ✅";
-
- name.value="";
- parent.value="";
- contact.value="";
- address.value="";
-}
-
-// STUDENTS
-let allStudents=[];
-
-async function loadStudents(){
- let snap = await db.collection('students').get();
- allStudents = [];
- snap.forEach(doc=>{
-  allStudents.push({id:doc.id,...doc.data()});
- });
- render(allStudents);
-}
-
-function render(arr){
- let out='';
- arr.forEach(x=>{
-  out += `<div class='card'>
-  <b>${x.name}</b><br>
-  ${x.parent}<br>
-  ${x.contact}<br>
-  ${x.address}
-  <br>
-  <button onclick="deleteStudent('${x.id}')">Delete</button>
-  </div>`;
- });
- data.innerHTML = out;
-}
-
-function searchStudent(){
- let val = search.value.toLowerCase();
- render(allStudents.filter(x=>x.name.toLowerCase().includes(val)));
-}
-
-async function deleteStudent(id){
- await db.collection('students').doc(id).delete();
- loadStudents();
-}
-
+// Hover animation
+const cards=document.querySelectorAll('.glass-card');cards.forEach(card=>{card.addEventListener('mouseenter',()=>card.style.transform='translateY(-10px)');card.addEventListener('mouseleave',()=>card.style.transform='translateY(0)');});
 </script>
-
 </body>
 </html>
