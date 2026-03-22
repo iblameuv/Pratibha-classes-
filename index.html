@@ -3,296 +3,754 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pratibha Smart Classes • Official</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>Pratibha Smart Classes - Premium Education Portal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .title-font { font-family: 'Playfair Display', serif; }
-        .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); }
-        .red-gradient { background: linear-gradient(135deg, #7f1d1d, #991b1b); }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
-        .nav-active { border-bottom: 3px solid #f97316; }
-        .animate-in { animation: fadeInScale 0.4s ease forwards; }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #ff0033;
+            --dark-red: #990022;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --light-gray: #2a2a2a;
+            --text-white: #ffffff;
+            --text-gray: #b0b0b0;
+            --glow-red: rgba(255, 0, 51, 0.5);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d0a0a 100%);
+            min-height: 100vh;
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite;
+            box-shadow: 0 0 10px var(--glow-red);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 0, 51, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 0, 51, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(255, 0, 51, 0.4);
+            border-color: rgba(255, 0, 51, 0.6);
+        }
+
+        /* Auth Container */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-box {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #fff 0%, #ff0033 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 0, 51, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 0, 51, 0.8)); }
+        }
+
+        .logo p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .form-group:focus-within label {
+            color: var(--primary-red);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 0, 51, 0.3);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px rgba(255, 0, 51, 0.3);
+            transform: scale(1.02);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 51, 0.5);
+        }
+
+        .toggle-auth {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-gray);
+        }
+
+        .toggle-auth a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .toggle-auth a:hover {
+            text-shadow: 0 0 10px var(--glow-red);
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.95);
+            border-right: 2px solid rgba(255, 0, 51, 0.3);
+            padding: 30px 20px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 0, 51, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h2 {
+            background: linear-gradient(135deg, #fff 0%, #ff0033 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-gray);
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 0, 51, 0.2);
+            color: var(--text-white);
+            transform: translateX(10px);
+            border-left: 3px solid var(--primary-red);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 0, 51, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 0, 51, 0); }
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: rgba(255, 0, 51, 0.2);
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 51, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff 0%, #ff0033 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Fee Status */
+        .fee-status {
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-paid {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+
+        .status-pending {
+            background: rgba(255, 0, 51, 0.2);
+            color: var(--primary-red);
+            border: 1px solid var(--primary-red);
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 0, 51, 0.3);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-red);
+            box-shadow: 0 10px 30px rgba(255, 0, 51, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Quote Section */
+        .quote-section {
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--text-white);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quote-author {
+            margin-top: 20px;
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+
+        /* Faculty Grid */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .faculty-card {
+            text-align: center;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .faculty-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .faculty-card:hover .faculty-img {
+            transform: rotate(360deg);
+            box-shadow: 0 0 30px var(--glow-red);
+        }
+
+        .faculty-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .faculty-subject {
+            color: var(--primary-red);
+            font-size: 0.9rem;
+        }
+
+        /* Fees Structure Table */
+        .fees-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .fees-table th, .fees-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 0, 51, 0.3);
+        }
+
+        .fees-table th {
+            background: rgba(255, 0, 51, 0.2);
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .fees-table tr:hover {
+            background: rgba(255, 0, 51, 0.1);
+            transition: background 0.3s;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .admin-btn {
+            padding: 20px;
+            background: rgba(255, 0, 51, 0.2);
+            border: 2px solid var(--primary-red);
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .admin-btn:hover {
+            background: var(--primary-red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 0, 51, 0.4);
+        }
+
+        .student-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 0, 51, 0.3);
+            transition: all 0.3s;
+        }
+
+        .student-item:hover {
+            background: rgba(255, 0, 51, 0.1);
+            padding-left: 25px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background: rgba(255, 165, 0, 0.3);
+            color: orange;
+        }
+
+        .delete-btn {
+            background: rgba(255, 0, 51, 0.3);
+            color: var(--primary-red);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: scale(0.8) translateY(-50px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--primary-red);
+            transition: transform 0.3s;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+        }
+
+        .loader-circle {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 0, 51, 0.3);
+            border-top-color: var(--primary-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Section Transitions */
+        .section {
+            display: none;
+            animation: sectionFade 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes sectionFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Motivational Quote Animation */
+        .motivation-card {
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 4rem;
+            color: var(--primary-red);
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+
+        /* Hidden Elements */
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen overflow-hidden">
-    <div class="flex h-screen">
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
 
-        <!-- Sidebar (visible after login) -->
-        <div id="sidebar" class="w-72 bg-zinc-900 border-r border-red-900 hidden flex-col">
-            <div class="p-6 border-b border-red-900 flex items-center gap-3">
-                <div id="logo-preview" class="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg">P</div>
-                <div>
-                    <h1 id="app-name" class="title-font text-3xl font-bold tracking-tight text-white">Pratibha</h1>
-                    <p class="text-xs text-zinc-400 -mt-1">Smart Classes • 2026</p>
-                </div>
-                <button onclick="editAppName()" class="ml-auto text-zinc-400 hover:text-white">
-                    <i class="fas fa-pen"></i>
-                </button>
-            </div>
-            <div class="flex-1 p-4 space-y-1 text-sm" id="sidebar-links">
-                <!-- JS will fill -->
-            </div>
-            <div class="p-4 border-t border-red-900">
-                <button onclick="logout()" 
-                        class="w-full py-3 bg-zinc-800 hover:bg-red-950 border border-zinc-700 rounded-xl flex items-center justify-center gap-2">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col">
-
-            <!-- Topbar -->
-            <header class="h-16 bg-zinc-900 border-b border-red-900 flex items-center px-6 justify-between">
-                <div class="flex items-center gap-4">
-                    <button onclick="toggleSidebar()" class="lg:hidden text-2xl"><i class="fas fa-bars"></i></button>
-                    <h2 id="page-title" class="text-2xl font-semibold title-font">Welcome to Pratibha Smart Classes</h2>
-                </div>
-                
-                <div class="flex items-center gap-6">
-                    <!-- Role indicator -->
-                    <div id="role-badge" class="hidden px-4 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-orange-500 to-red-500"></div>
-                    
-                    <!-- WhatsApp floating -->
-                    <button onclick="openWhatsApp()" 
-                            class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-2xl shadow-xl transition-all active:scale-95">
-                        <i class="fab fa-whatsapp text-xl"></i>
-                        <span class="font-medium">Chat with Institute • 8766295309</span>
-                    </button>
-
-                    <button onclick="switchUser()" class="glass px-4 py-2 rounded-2xl flex items-center gap-2 text-sm">
-                        <i class="fas fa-users"></i> Switch Role (Demo)
-                    </button>
-
-                    <div class="w-8 h-8 bg-zinc-700 rounded-full flex items-center justify-center cursor-pointer" onclick="showProfile()">
-                        👤
-                    </div>
-                </div>
-            </header>
-
-            <!-- Login Screen -->
-            <div id="login-screen" class="flex-1 flex items-center justify-center bg-[radial-gradient(at_center,#4c1d0f_0%,transparent_70%)]">
-                <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl animate-in">
-                    <div class="text-center mb-8">
-                        <div class="mx-auto w-20 h-20 bg-gradient-to-br from-red-600 to-orange-500 rounded-2xl flex items-center justify-center shadow-inner text-5xl mb-4">📚</div>
-                        <h1 class="title-font text-4xl font-bold">Pratibha Smart Classes</h1>
-                        <p class="text-zinc-400">Empowering Future • Since 2018</p>
-                    </div>
-
-                    <!-- Tab -->
-                    <div class="flex border-b border-zinc-700 mb-6">
-                        <button onclick="showLoginTab(0)" id="tab-student" class="flex-1 py-3 font-medium nav-active">Student Login</button>
-                        <button onclick="showLoginTab(1)" id="tab-admin" class="flex-1 py-3 font-medium text-zinc-400">Admin Portal</button>
-                    </div>
-
-                    <!-- Student Form -->
-                    <div id="student-form">
-                        <input id="s-email" placeholder="student@email.com" value="rahul@pratibha.com" 
-                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-3 mb-3 focus:outline-none focus:border-orange-500">
-                        <input id="s-pass" type="password" placeholder="••••••••" value="123456"
-                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-3 mb-6 focus:outline-none focus:border-orange-500">
-                        <button onclick="loginStudent()" 
-                                class="w-full py-4 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 rounded-2xl font-bold text-lg shadow-lg transition-all active:scale-95">
-                            Login as Student
-                        </button>
-                        <button onclick="fakeRegister()" class="w-full mt-3 text-orange-400 hover:underline">New Student? Submit Registration →</button>
-                    </div>
-
-                    <!-- Admin Form -->
-                    <div id="admin-form" class="hidden">
-                        <input id="a-email" placeholder="Admin Email" value="yuvrajbadgujjar9@gmail.com" 
-                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-3 mb-3 focus:outline-none focus:border-orange-500">
-                        <input id="a-pass" type="password" placeholder="Password" value="yuv...309"
-                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-3 mb-6 focus:outline-none focus:border-orange-500">
-                        <button onclick="loginAdmin()" 
-                                class="w-full py-4 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 rounded-2xl font-bold text-lg shadow-lg transition-all active:scale-95">
-                            Open Admin Panel 🔥
-                        </button>
-                    </div>
-
-                    <p class="text-center text-xs text-zinc-500 mt-6">Demo mode • Everything saved in your browser • Fully editable</p>
-                </div>
-            </div>
-
-            <!-- Student Dashboard -->
-            <div id="student-dash" class="hidden flex-1 overflow-auto p-6 grid grid-cols-12 gap-6">
-                <!-- Header -->
-                <div class="col-span-12 flex justify-between items-end">
-                    <div>
-                        <h2 class="text-3xl font-bold flex items-center gap-2">👋 Welcome back, Rahul Sharma <span class="text-orange-400 text-sm font-normal">(Class 10 • Science)</span></h2>
-                        <p class="text-zinc-400">Last fee paid: 12 Mar 2026 • Next due: <span id="next-due" class="text-red-400 font-medium">10 Apr 2026</span></p>
-                    </div>
-                    <div class="flex gap-3">
-                        <button onclick="submitStudentDetails()" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-2xl flex items-center gap-2">
-                            📝 Submit / Update My Details
-                        </button>
-                        <button onclick="viewPhotos()" class="px-6 py-2 glass rounded-2xl">📸 Institute Gallery</button>
-                        <button onclick="markFeePaid()" class="px-6 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl">✅ Mark Fee Paid (Demo)</button>
-                    </div>
-                </div>
-
-                <!-- Fees Card -->
-                <div class="col-span-5 glass rounded-3xl p-6 card-hover">
-                    <h3 class="font-semibold flex justify-between">💰 Fee Structure <button onclick="alert('Admin can edit this section live')" class="text-xs bg-red-500 px-3 py-1 rounded-xl">Editable by Admin</button></h3>
-                    <table class="w-full mt-4 text-sm">
-                        <tr class="border-b border-zinc-700"><td class="py-2">Monthly Tuition</td><td class="text-right font-medium">₹1,800</td></tr>
-                        <tr class="border-b border-zinc-700"><td class="py-2">Exam Fee (Apr)</td><td class="text-right font-medium">₹2,500</td></tr>
-                        <tr><td class="py-2">Next Payment Due</td><td id="due-date-display" class="text-right font-bold text-red-400">10 Apr 2026</td></tr>
-                    </table>
-                    <button onclick="fakePay()" class="mt-6 w-full py-3 bg-gradient-to-r from-orange-400 to-red-500 rounded-2xl font-bold">Pay Now via UPI / Card</button>
-                </div>
-
-                <!-- Submit Details Form -->
-                <div class="col-span-4 glass rounded-3xl p-6">
-                    <h3 class="font-semibold mb-4">📋 Submit Your Details (Admin will see instantly)</h3>
-                    <input id="stu-name" placeholder="Full Name" value="Rahul Sharma" class="w-full px-4 py-2 bg-zinc-800 rounded-xl mb-2">
-                    <input id="parent-name" placeholder="Parent Name" value="Mr. Ramesh Sharma" class="w-full px-4 py-2 bg-zinc-800 rounded-xl mb-2">
-                    <input id="contact" placeholder="Contact" value="9876543210" class="w-full px-4 py-2 bg-zinc-800 rounded-xl mb-2">
-                    <textarea id="address" placeholder="Address" class="w-full px-4 py-2 bg-zinc-800 rounded-xl h-20">123, Sector 15, Gurugram, Haryana</textarea>
-                    <button onclick="submitDetails()" class="mt-4 w-full py-3 bg-emerald-600 rounded-2xl">Submit to Admin ✅</button>
-                </div>
-
-                <!-- Gallery Preview -->
-                <div class="col-span-3 glass rounded-3xl overflow-hidden">
-                    <img src="https://picsum.photos/id/1015/300/120" class="w-full h-28 object-cover">
-                    <div class="p-3 text-xs flex justify-between">
-                        <button onclick="viewPhotos()" class="text-orange-400">View 12+ Institute Photos →</button>
-                        <span class="text-green-400">✅ Verified</span>
-                    </div>
-                </div>
-
-                <!-- Payment History -->
-                <div class="col-span-12 glass rounded-3xl p-5">
-                    <h3 class="font-semibold">📅 Your Payment History & Schedule (Admin filled)</h3>
-                    <div class="grid grid-cols-5 gap-3 mt-3 text-center text-xs">
-                        <div class="bg-zinc-800 rounded-2xl p-3">Mar 2026<br><span class="text-emerald-400 font-bold">PAID ✓</span></div>
-                        <div class="bg-zinc-800 rounded-2xl p-3">Feb 2026<br><span class="text-emerald-400 font-bold">PAID ✓</span></div>
-                        <div class="bg-red-950 border border-red-400 rounded-2xl p-3">Apr 2026<br><span class="font-bold text-red-400">DUE SOON</span></div>
-                        <div class="bg-zinc-800 rounded-2xl p-3">May 2026<br><span class="text-zinc-400">Pending</span></div>
-                        <div onclick="adminFillDemo()" class="border border-dashed border-orange-400 rounded-2xl p-3 flex items-center justify-center cursor-pointer hover:bg-orange-950">
-                            + Admin can add dates
-                        </div>
-                    </div>
-                </div>
-
-                <button onclick="logout()" class="fixed bottom-6 right-6 bg-zinc-800 px-5 py-3 rounded-2xl shadow-2xl">← Back to Login (Demo)</button>
-            </div>
-
-            <!-- ADMIN PANEL -->
-            <div id="admin-panel" class="hidden flex-1 overflow-auto bg-zinc-950">
-                <div class="flex border-b border-red-800">
-                    <button onclick="adminTab(0)" id="admin-tab-0" class="flex-1 py-4 bg-zinc-900 font-semibold nav-active">📊 Dashboard</button>
-                    <button onclick="adminTab(1)" id="admin-tab-1" class="flex-1 py-4 font-semibold">👨‍🎓 Students (12)</button>
-                    <button onclick="adminTab(2)" id="admin-tab-2" class="flex-1 py-4 font-semibold">💰 Fees + Schedule</button>
-                    <button onclick="adminTab(3)" id="admin-tab-3" class="flex-1 py-4 font-semibold">🖼️ Photos & Content</button>
-                    <button onclick="adminTab(4)" id="admin-tab-4" class="flex-1 py-4 font-semibold">⚙️ App Settings</button>
-                </div>
-
-                <!-- Dashboard Tab -->
-                <div id="admin-content-0" class="p-6">
-                    <h1 class="text-3xl mb-6">Admin Control Center • Yuvraj Badgujjar</h1>
-                    <div class="grid grid-cols-3 gap-6">
-                        <div class="glass p-6 rounded-3xl">
-                            <button onclick="addNewStudent()" class="w-full py-6 bg-emerald-600 hover:bg-emerald-500 text-xl rounded-2xl">➕ Add New Student</button>
-                        </div>
-                        <div class="glass p-6 rounded-3xl">
-                            <input id="new-app-name" placeholder="Change App Name" class="w-full px-4 py-3 bg-zinc-800 rounded-2xl">
-                            <button onclick="changeAppName()" class="mt-3 w-full py-3 bg-orange-500 rounded-2xl">Update Name + Logo</button>
-                        </div>
-                        <div class="glass p-6 rounded-3xl">
-                            <button onclick="deleteStudentDemo()" class="w-full py-6 bg-red-600 hover:bg-red-700 text-xl rounded-2xl">🗑️ Delete Student (Demo)</button>
-                        </div>
-                    </div>
-                    <div class="mt-6 flex gap-3 flex-wrap">
-                        <button onclick="showAllStudents()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">View All Submitted Details</button>
-                        <button onclick="editFees()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">Edit Fee Structure & Next Due</button>
-                        <button onclick="uploadPhotoDemo()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">Upload New Institute Photo</button>
-                        <button onclick="logout()" class="px-5 py-2 bg-zinc-800 hover:bg-red-800 rounded-2xl">Exit Admin</button>
-                    </div>
-                    <!-- Fake student list -->
-                    <div class="mt-8 glass rounded-3xl p-4">
-                        <table class="w-full">
-                            <thead><tr class="text-left text-xs text-zinc-400"><th>Name</th><th>Parent</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead>
-                            <tbody id="student-table">
-                                <!-- Filled by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Other tabs hidden, shown via JS -->
-                <div id="admin-content-1" class="hidden p-6">Students management ready. Click buttons above to simulate add/edit/delete.</div>
-                <div id="admin-content-2" class="hidden p-6">Fees editor • Click any button on dashboard to simulate.</div>
-                <div id="admin-content-3" class="hidden p-6">Gallery • New photos added instantly appear for students.</div>
-                <div id="admin-content-4" class="hidden p-6">
-                    <h3>App Settings (Live preview)</h3>
-                    <input id="logo-text" value="P" class="w-12 text-center text-4xl">
-                    <button onclick="changeLogo()" class="ml-4 bg-white text-zinc-900 px-6 py-2">Change Logo Text</button>
-                    <p class="text-xs mt-4 text-green-400">All changes instantly reflect everywhere • Data saved in localStorage</p>
-                </div>
-            </div>
-
-            <!-- Floating Action Buttons -->
-            <button onclick="openWhatsApp()" 
-                    class="fixed bottom-24 right-8 bg-green-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:rotate-12 transition">
-                💬
-            </button>
-            <button onclick="showHelp()" 
-                    class="fixed bottom-8 right-8 bg-zinc-700 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-3xl">❔</button>
-        </div>
-    </div>
-
-    <!-- Toast -->
-    <div id="toast" class="hidden fixed bottom-10 left-1/2 -translate-x-1/2 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-2xl">✅ Action completed! (Everything works)</div>
-
-    <script>
-        // Tailwind script already loaded via CDN
-        function initTailwind() {
-            // Already configured
-        }
-
-        let currentRole = null;
-        let students = [
-            {name:"Rahul Sharma", parent:"Ramesh", contact:"9876543210", address:"Gurugram"},
-            {name:"Priya Yadav", parent:"Sanjay", contact:"8765432190", address:"Delhi"}
-        ];
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.remove('hidden');
-            setTimeout(() => t.classList.add('hidden'), 3000);
-        }
-
-        function showLoginTab(n) {
-            document.getElementById('student-form').classList.toggle('hidden', n === 1);
-            document.getElementById('admin-form').classList.toggle('hidden', n === 0);
-            document.getElementById('tab-student').classList.toggle('nav-active', n === 0);
-            document.getElementById('tab-admin').classList.toggle('nav-active', n === 1);
-        }
-
-        function loginStudent() {
-            currentRole = 'student';
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('student-dash').classList.remove('hidden');
-            document.getElementById('sidebar').classList.remove('hidden');
-            document.getElementById('role-badge').classList.remove('hidden');
-            document.getElementById('role-badge').innerHTML = '👨‍🎓 Student Mode';
-            document.getElementById('page-title').innerText = 'Student Portal • Pratibha Smart Classes';
-            loadSidebar('student');
-            showToast('✅ Logged in as Rahul Sharma • All features active');
-        }
-
-        function loginAdmin() {
-            const email = document.getElementById('a-email').value;
-            const pass = document.getElementById('a-pass').value;
-            if (email.includes('yuvraj') && pass.includes('309')) {
-                currentRole = 'admin';
-                document.getElementById('login-screen').classList.add('hidden');
-   
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        
