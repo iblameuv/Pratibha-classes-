@@ -1,128 +1,169 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pratibha Smart Classes</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>Pratibha Classes</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;font-family:'Poppins',sans-serif;background:#0f172a;color:white}
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:#020617;position:sticky;top:0}
-header h1{color:#38bdf8;margin:0}
-nav a{margin:0 10px;color:white;text-decoration:none;font-weight:500}
-.hero{height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(135deg,#0ea5e9,#6366f1);text-align:center}
-.hero h2{font-size:40px;margin-bottom:10px}
-.hero p{font-size:18px;margin-bottom:20px}
-button{padding:12px 25px;border:none;border-radius:25px;background:#fff;color:#0f172a;font-weight:bold;cursor:pointer;transition:0.3s}
-button:hover{transform:scale(1.05)}
-section{padding:60px 20px;text-align:center}
-.cards{display:flex;flex-wrap:wrap;justify-content:center}
-.card{background:#1e293b;padding:25px;margin:15px;border-radius:15px;width:260px;box-shadow:0 0 15px rgba(0,0,0,0.5);transition:0.3s}
-.card:hover{transform:translateY(-10px)}
-input,textarea{padding:12px;margin:8px;width:260px;border-radius:8px;border:none}
-.footer{background:#020617;padding:20px;text-align:center}
-.highlight{color:#38bdf8}
-.admin{background:#111827;padding:20px;margin:20px;border-radius:10px;display:none}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+}
+
+nav h1 {
+    color: #00eaff;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    animation: fadeIn 2s ease;
+}
+
+.hero h2 {
+    font-size: 40px;
+}
+
+.hero span {
+    color: #00eaff;
+}
+
+.hero button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    background: #00eaff;
+    color: black;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hero button:hover {
+    transform: scale(1.1);
+}
+
+/* Courses */
+.courses {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.course-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    margin: 15px;
+    padding: 20px;
+    width: 250px;
+    border-radius: 15px;
+    transition: 0.4s;
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background: rgba(0,0,0,0.3);
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
 </style>
 </head>
-<body><header>
-<h1 id="title">Pratibha Smart Classes</h1>
+
+<body>
+
 <nav>
-<a href="#">Home</a>
-<a href="#courses">Courses</a>
-<a href="#admission">Admission</a>
-<a href="#contact">Contact</a>
-<a href="#adminLogin">Admin</a>
+    <h1>Pratibha Classes</h1>
+    <div>
+        <a href="#">Home</a>
+        <a href="#">Courses</a>
+        <a href="#">Contact</a>
+    </div>
 </nav>
-</header><section class="hero">
-<h2 id="heroText">Build Your Future With <span class="highlight">Excellence</span></h2>
-<p id="tagline">Smart Learning • Strong Concepts • Guaranteed Growth</p>
-<button onclick="scrollToSection()">Join Now</button>
-</section><section id="courses">
-<h2>Our Courses</h2>
-<div class="cards" id="coursesList"></div>
-</section><section id="admission">
-<h2>Admission Enquiry</h2>
-<input type="text" placeholder="Student Name"><br>
-<input type="text" placeholder="Class"><br>
-<input type="text" placeholder="Phone Number"><br>
-<button onclick="alert('Submitted Successfully!')">Submit</button>
-</section><section>
-<h2>Fees Structure</h2>
-<div id="feesDisplay"></div>
-</section><section>
-<h2>Our Teachers</h2>
-<div id="teachersDisplay"></div>
-</section><section>
-<h2>Motivation</h2>
-<p id="motivation">"Study hard today, shine tomorrow."</p>
-</section><section id="contact">
-<h2>Contact Us</h2>
-<p id="phone1">📞 7289829580</p>
-<p id="phone2">📞 8766295309</p>
-<p>📍 Delhi</p>
-</section><!-- ADMIN LOGIN --><section id="adminLogin">
-<h2>Admin Login</h2>
-<input type="password" id="adminPass" placeholder="Enter Password"><br>
-<button onclick="login()">Login</button>
-</section><!-- ADMIN PANEL --><div class="admin" id="adminPanel">
-<h2>Admin Panel</h2><h3>Edit Title</h3>
-<input id="editTitle"><br><h3>Edit Hero Text</h3>
-<input id="editHero"><br><h3>Edit Tagline</h3>
-<input id="editTagline"><br><h3>Edit Fees</h3>
-<textarea id="editFees"></textarea><br><h3>Edit Teachers</h3>
-<textarea id="editTeachers"></textarea><br><h3>Edit Motivation</h3>
-<input id="editMotivation"><br><button onclick="saveChanges()">Save Changes</button>
 
-</div><div class="footer">
-<p>© 2026 Pratibha Smart Classes</p>
-</div><script>
-// default data
-let data = JSON.parse(localStorage.getItem('siteData')) || {
- title:"Pratibha Smart Classes",
- hero:"Build Your Future With Excellence",
- tagline:"Smart Learning • Strong Concepts • Guaranteed Growth",
- fees:"Class 9-10: ₹1500/month<br>Class 11-12: ₹2000/month",
- teachers:"Maths Expert<br>Science Specialist<br>English Mentor",
- motivation:"Study hard today, shine tomorrow."
-};
+<section class="hero">
+    <h2>Build Your Future with <span>Pratibha Classes</span></h2>
+    <p>Best coaching for school students</p>
+    <button onclick="contact()">Join Now</button>
+</section>
 
-function load(){
- document.getElementById('title').innerText=data.title;
- document.getElementById('heroText').innerHTML=data.hero;
- document.getElementById('tagline').innerText=data.tagline;
- document.getElementById('feesDisplay').innerHTML=data.fees;
- document.getElementById('teachersDisplay').innerHTML=data.teachers;
- document.getElementById('motivation').innerText=data.motivation;
+<section class="courses">
+    <h2>Our Courses</h2>
+    <div class="course-container">
+        <div class="card">Class 10 - All Subjects</div>
+        <div class="card">Class 11 - Science/Commerce</div>
+        <div class="card">Class 12 - Board Prep</div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Pratibha Classes</p>
+</footer>
+
+<script>
+function contact(){
+    window.open("https://wa.me/91XXXXXXXXXX", "_blank");
 }
 
-function login(){
- if(document.getElementById('adminPass').value==="admin123"){
-  document.getElementById('adminPanel').style.display='block';
-  document.getElementById('editTitle').value=data.title;
-  document.getElementById('editHero').value=data.hero;
-  document.getElementById('editTagline').value=data.tagline;
-  document.getElementById('editFees').value=data.fees.replace(/<br>/g,"\n");
-  document.getElementById('editTeachers').value=data.teachers.replace(/<br>/g,"\n");
-  document.getElementById('editMotivation').value=data.motivation;
- } else alert("Wrong password");
-}
+// Scroll animation
+const cards = document.querySelectorAll('.card');
+window.addEventListener('scroll', () => {
+    cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if(top < window.innerHeight - 50){
+            card.classList.add('show');
+        }
+    });
+});
+</script>
 
-function saveChanges(){
- data.title=document.getElementById('editTitle').value;
- data.hero=document.getElementById('editHero').value;
- data.tagline=document.getElementById('editTagline').value;
- data.fees=document.getElementById('editFees').value.replace(/\n/g,"<br>");
- data.teachers=document.getElementById('editTeachers').value.replace(/\n/g,"<br>");
- data.motivation=document.getElementById('editMotivation').value;
- localStorage.setItem('siteData',JSON.stringify(data));
- load();
- alert("Updated Successfully");
-}
-
-function scrollToSection(){
- document.getElementById('admission').scrollIntoView({behavior:'smooth'});
-}
-
-load();
-</script></body>
+</body>
 </html>
