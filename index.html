@@ -1,168 +1,263 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pratibha Classes</title>
+<title>Pratibha Smart Classes</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
+body{margin:0;font-family:Arial;background:#000;color:#fff}
+header{padding:100px;text-align:center;background:linear-gradient(135deg,#000,#111,#ff0000)}
+h1{font-size:50px}
+
+section{padding:60px;max-width:1100px;margin:auto}
+
+.card{
+background:#111;
+border:1px solid red;
+padding:15px;
+border-radius:10px;
+margin:10px 0;
 }
 
-body {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
+input{
+width:90%;
+padding:10px;
+margin:5px;
+border-radius:8px;
+border:none;
 }
 
-/* Navbar */
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 40px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
+button{
+padding:8px 15px;
+background:red;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
 }
 
-nav h1 {
-    color: #00eaff;
+#adminBtn{
+position:fixed;
+top:20px;
+right:20px;
+background:black;
+border:1px solid red;
+padding:10px;
+border-radius:50%;
+cursor:pointer;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
+#adminPanel{
+position:fixed;
+top:0;
+right:-100%;
+width:350px;
+height:100%;
+background:#111;
+transition:0.4s;
+padding:20px;
+overflow:auto;
 }
 
-/* Hero */
-.hero {
-    text-align: center;
-    padding: 120px 20px;
-    animation: fadeIn 2s ease;
-}
+#adminPanel.active{right:0}
 
-.hero h2 {
-    font-size: 40px;
-}
-
-.hero span {
-    color: #00eaff;
-}
-
-.hero button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    border: none;
-    background: #00eaff;
-    color: black;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.hero button:hover {
-    transform: scale(1.1);
-}
-
-/* Courses */
-.courses {
-    padding: 50px 20px;
-    text-align: center;
-}
-
-.course-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.card {
-    background: rgba(255,255,255,0.08);
-    margin: 15px;
-    padding: 20px;
-    width: 250px;
-    border-radius: 15px;
-    transition: 0.4s;
-    opacity: 0;
-    transform: translateY(50px);
-}
-
-.card.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.card:hover {
-    transform: translateY(-10px) scale(1.05);
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 20px;
-    margin-top: 30px;
-    background: rgba(0,0,0,0.3);
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+padding:15px;
+border-radius:50%;
 }
 </style>
 </head>
 
 <body>
 
-<nav>
-    <h1>Pratibha Classes</h1>
-    <div>
-        <a href="#">Home</a>
-        <a href="#">Courses</a>
-        <a href="#">Contact</a>
-    </div>
-</nav>
+<header>
+<h1>Pratibha Smart Classes</h1>
+<p>Smart Learning for Bright Future</p>
+</header>
 
-<section class="hero">
-    <h2>Build Your Future with <span>Pratibha Classes</span></h2>
-    <p>Best coaching for school students</p>
-    <button onclick="contact()">Join Now</button>
+<section>
+<h2>Why Education Matters</h2>
+<div class="card">
+Education builds discipline, confidence, and opens doors to opportunities.
+With the right guidance and strong concepts, students can achieve success
+in exams and in life.
+</div>
 </section>
 
-<section class="courses">
-    <h2>Our Courses</h2>
-    <div class="course-container">
-        <div class="card">Class 10 - All Subjects</div>
-        <div class="card">Class 11 - Science/Commerce</div>
-        <div class="card">Class 12 - Board Prep</div>
-    </div>
+<section>
+<h2>Courses</h2>
+<div id="courses"></div>
 </section>
 
-<footer>
-    <p>© 2026 Pratibha Classes</p>
-</footer>
+<section>
+<h2>Admission Form</h2>
+<input id="name" placeholder="Student Name">
+<input id="parent" placeholder="Parent Name">
+<input id="contact" placeholder="Contact">
+<input id="address" placeholder="Address">
+<button onclick="submitForm()">Submit</button>
+<p id="msg"></p>
+</section>
+
+<div id="adminBtn" onclick="toggleAdmin()">⚙️</div>
+
+<div id="adminPanel">
+<h2>Admin Panel</h2>
+
+<input type="password" id="pass" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<div id="adminContent" style="display:none">
+
+<h3>Change Password</h3>
+<input id="newpass" placeholder="New Password">
+<button onclick="changePass()">Update</button>
+
+<h3>Add Course</h3>
+<input id="cname" placeholder="Course">
+<input id="csubject" placeholder="Subject">
+<input id="cteacher" placeholder="Teacher">
+<input id="cfees" placeholder="Fees">
+<button onclick="addCourse()">Add</button>
+
+<h3>Students</h3>
+<input id="search" placeholder="Search" onkeyup="searchStudent()">
+<div id="data"></div>
+
+</div>
+</div>
+
+<a href="https://wa.me/918766295309" class="whatsapp">💬</a>
 
 <script>
-function contact(){
-    window.open("https://wa.me/91XXXXXXXXXX", "_blank");
+
+// 🔥 PUT YOUR FIREBASE CONFIG HERE
+const firebaseConfig = {
+  apiKey: "AIzaSyDt83YIHvVU_wa1T0ZI4Iilu_TuM6L3t1k",
+  authDomain: "pratibha-smart-classes-4bc4f.firebaseapp.com",
+  projectId: "pratibha-smart-classes-4bc4f"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// PASSWORD
+if(!localStorage.getItem('adminPass')){
+ localStorage.setItem('adminPass','admin123');
 }
 
-// Scroll animation
-const cards = document.querySelectorAll('.card');
-window.addEventListener('scroll', () => {
-    cards.forEach(card => {
-        const top = card.getBoundingClientRect().top;
-        if(top < window.innerHeight - 50){
-            card.classList.add('show');
-        }
-    });
-});
+function toggleAdmin(){
+ adminPanel.classList.toggle('active');
+}
+
+function login(){
+ if(pass.value === localStorage.getItem('adminPass')){
+  adminContent.style.display = 'block';
+  loadStudents();
+ }
+}
+
+function changePass(){
+ localStorage.setItem('adminPass', newpass.value);
+ alert("Password Updated");
+}
+
+// COURSES
+async function addCourse(){
+ await db.collection('courses').add({
+  name:cname.value,
+  subject:csubject.value,
+  teacher:cteacher.value,
+  fees:cfees.value
+ });
+ loadCourses();
+}
+
+async function loadCourses(){
+ let snap = await db.collection('courses').get();
+ let out = '';
+ snap.forEach(doc=>{
+  let x = doc.data();
+  out += `<div class='card'>
+  <b>${x.name}</b><br>
+  ${x.subject}<br>
+  ${x.teacher}<br>
+  ₹${x.fees}
+  <br>
+  <button onclick="deleteCourse('${doc.id}')">Delete</button>
+  </div>`;
+ });
+ courses.innerHTML = out;
+}
+loadCourses();
+
+async function deleteCourse(id){
+ await db.collection('courses').doc(id).delete();
+ loadCourses();
+}
+
+// FORM
+async function submitForm(){
+ await db.collection('students').add({
+  name:name.value,
+  parent:parent.value,
+  contact:contact.value,
+  address:address.value
+ });
+
+ msg.innerText = "Submitted Successfully ✅";
+
+ name.value="";
+ parent.value="";
+ contact.value="";
+ address.value="";
+}
+
+// STUDENTS
+let allStudents=[];
+
+async function loadStudents(){
+ let snap = await db.collection('students').get();
+ allStudents = [];
+ snap.forEach(doc=>{
+  allStudents.push({id:doc.id,...doc.data()});
+ });
+ render(allStudents);
+}
+
+function render(arr){
+ let out='';
+ arr.forEach(x=>{
+  out += `<div class='card'>
+  <b>${x.name}</b><br>
+  ${x.parent}<br>
+  ${x.contact}<br>
+  ${x.address}
+  <br>
+  <button onclick="deleteStudent('${x.id}')">Delete</button>
+  </div>`;
+ });
+ data.innerHTML = out;
+}
+
+function searchStudent(){
+ let val = search.value.toLowerCase();
+ render(allStudents.filter(x=>x.name.toLowerCase().includes(val)));
+}
+
+async function deleteStudent(id){
+ await db.collection('students').doc(id).delete();
+ loadStudents();
+}
+
 </script>
 
 </body>
