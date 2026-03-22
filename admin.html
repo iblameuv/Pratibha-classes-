@@ -16,7 +16,35 @@
 
 <script>
 const firebaseConfig = {
-  // PASTE YOUR CONFIG HERE
+  // PASTE YOUR CONFIG HE<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAV1CfzK6ECYcLGRNXKjT8bn_MnPxz2qHg",
+  authDomain: "pratibha-smart-classes.firebaseapp.com",
+  projectId: "pratibha-smart-classes",
+  storageBucket: "pratibha-smart-classes.appspot.com",
+  messagingSenderId: "502497326256",
+  appId: "1:502497326256:web:f3a2cf26cf6ec3b4793775"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.addCourse = async function(){
+    let course = document.getElementById("course").value;
+    await addDoc(collection(db, "courses"), { name: course });
+};
+
+onSnapshot(collection(db, "courses"), (snapshot) => {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+    snapshot.forEach(doc => {
+        list.innerHTML += "<li>" + doc.data().name + "</li>";
+    });
+});
+</script>RE
 };
 
 const app = firebase.initializeApp(firebaseConfig);
